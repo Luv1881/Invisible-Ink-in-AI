@@ -269,10 +269,6 @@ If you use this framework in your research, please cite:
 }
 ```
 
-## License
-
-MIT License - see LICENSE file for details
-
 ## Contributing
 
 Contributions are welcome! Please submit issues and pull requests.
