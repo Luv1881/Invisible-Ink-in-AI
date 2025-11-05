@@ -1,0 +1,18 @@
+{
+  "model_id": "20251105_115802",
+  "timestamp": "2025-11-05T11:58:02.269296",
+  "text_length": 8,
+  "payload_size_bytes": 8,
+  "payload_size_bits": 64,
+  "redundancy_factor": 25,
+  "capacity_percent": 0.014321477059858046,
+  "baseline_accuracy": 0.116875,
+  "embedded_accuracy": 0.116875,
+  "accuracy_drop": 0.0,
+  "quantization_survival_8bit": 0.0,
+  "quantization_survival_4bit": 0.0,
+  "qim_step_multiplier": 0.25,
+  "embedding_seed": 47889062339678612690495120355327615046,
+  "whitening_seed": 97788047738043480761797826700154381343,
+  "adaptive_redundancy": false
+}

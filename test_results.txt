@@ -1,0 +1,427 @@
+====================================================================================================
+NEURAL NETWORK STEGANOGRAPHY - COMPREHENSIVE TEST RESULTS
+Generated: 2025-11-02 22:08:02
+====================================================================================================
+
+WARNINGS:
+----------------------------------------------------------------------------------------------------
+  - Low survival rate for Structured Prune (50%): 79.45%
+  - Low survival rate for Structured Prune (60%): 75.95%
+  - Low survival rate for Structured Prune (70%): 68.84%
+  - Low survival rate for 4-bit Quantization: 48.19%
+  - Low survival rate for Gaussian Noise (std=0.005): 54.30%
+  - Low survival rate for Combined: Prune(50%) + Quantize(4bit): 40.07%
+
+
+Test: No Attack (Identity)
+----------------------------------------------------------------------------------------------------
+attack_name                   : No Attack (Identity)
+attack_params                 : {}
+payload_size_bytes            : 828
+payload_size_bits             : 6624
+embed_time                    : 180.8s
+capacity_weights              : 99360
+capacity_percent              : 0.8894%
+baseline_accuracy             : 0.6942
+embedded_accuracy             : 0.6942
+accuracy_drop_embed           : 0.0000
+attack_time                   : 0.0s
+attacked_accuracy             : 0.6942
+accuracy_drop_attack          : 0.0000
+extract_time                  : 1.2s
+mean_confidence               : 1.0000
+min_confidence                : 1.0000
+survival_rate                 : 100.00%
+survival_rate_numeric         : 1.0
+exact_match                   : True
+ks_pvalue                     : 0.827404
+mw_pvalue                     : 0.966402
+chi2_pvalue                   : 1.000000
+mean_pvalue                   : 0.931269
+statistically_undetectable    : True
+status                        : SUCCESS
+
+
+Test: Fine-tune (2 epochs)
+----------------------------------------------------------------------------------------------------
+attack_name                   : Fine-tune (2 epochs)
+attack_params                 : {'train_loader': <torch.utils.data.dataloader.DataLoader object at 0x7f4577e557f0>, 'num_epochs': 2, 'learning_rate': 0.001}
+payload_size_bytes            : 828
+payload_size_bits             : 6624
+embed_time                    : 183.4s
+capacity_weights              : 99360
+capacity_percent              : 0.8894%
+baseline_accuracy             : 0.6298
+embedded_accuracy             : 0.6297
+accuracy_drop_embed           : 0.0002
+attack_time                   : 25.8s
+attacked_accuracy             : 0.7144
+accuracy_drop_attack          : -0.0847
+extract_time                  : 1.2s
+mean_confidence               : 1.0000
+min_confidence                : 0.9985
+survival_rate                 : 100.00%
+survival_rate_numeric         : 1.0
+exact_match                   : True
+status                        : SUCCESS
+
+
+Test: Fine-tune (5 epochs)
+----------------------------------------------------------------------------------------------------
+attack_name                   : Fine-tune (5 epochs)
+attack_params                 : {'train_loader': <torch.utils.data.dataloader.DataLoader object at 0x7f4577e557f0>, 'num_epochs': 5, 'learning_rate': 0.001}
+payload_size_bytes            : 828
+payload_size_bits             : 6624
+embed_time                    : 184.6s
+capacity_weights              : 99360
+capacity_percent              : 0.8894%
+baseline_accuracy             : 0.6111
+embedded_accuracy             : 0.6109
+accuracy_drop_embed           : 0.0002
+attack_time                   : 65.8s
+attacked_accuracy             : 0.7861
+accuracy_drop_attack          : -0.1752
+extract_time                  : 1.2s
+mean_confidence               : 1.0000
+min_confidence                : 0.9969
+survival_rate                 : 100.00%
+survival_rate_numeric         : 1.0
+exact_match                   : True
+status                        : SUCCESS
+
+
+Test: Fine-tune (10 epochs)
+----------------------------------------------------------------------------------------------------
+attack_name                   : Fine-tune (10 epochs)
+attack_params                 : {'train_loader': <torch.utils.data.dataloader.DataLoader object at 0x7f4577e557f0>, 'num_epochs': 10, 'learning_rate': 0.001}
+payload_size_bytes            : 828
+payload_size_bits             : 6624
+embed_time                    : 184.7s
+capacity_weights              : 99360
+capacity_percent              : 0.8894%
+baseline_accuracy             : 0.6022
+embedded_accuracy             : 0.6023
+accuracy_drop_embed           : -0.0002
+attack_time                   : 130.7s
+attacked_accuracy             : 0.8037
+accuracy_drop_attack          : -0.2014
+extract_time                  : 1.2s
+mean_confidence               : 1.0000
+min_confidence                : 0.9857
+survival_rate                 : 100.00%
+survival_rate_numeric         : 1.0
+exact_match                   : True
+status                        : SUCCESS
+
+
+Test: Structured Prune (30%)
+----------------------------------------------------------------------------------------------------
+attack_name                   : Structured Prune (30%)
+attack_params                 : {'sparsity': 0.3}
+payload_size_bytes            : 828
+payload_size_bits             : 6624
+embed_time                    : 183.1s
+capacity_weights              : 99360
+capacity_percent              : 0.8894%
+baseline_accuracy             : 0.5988
+embedded_accuracy             : 0.5984
+accuracy_drop_embed           : 0.0003
+attack_time                   : 0.0s
+attacked_accuracy             : 0.1100
+accuracy_drop_attack          : 0.4884
+extract_time                  : 1.2s
+mean_confidence               : 1.0000
+min_confidence                : 1.0000
+survival_rate                 : 88.63%
+survival_rate_numeric         : 0.886322463768116
+exact_match                   : False
+status                        : SUCCESS
+
+
+Test: Structured Prune (50%)
+----------------------------------------------------------------------------------------------------
+attack_name                   : Structured Prune (50%)
+attack_params                 : {'sparsity': 0.5}
+payload_size_bytes            : 828
+payload_size_bits             : 6624
+embed_time                    : 182.3s
+capacity_weights              : 99360
+capacity_percent              : 0.8894%
+baseline_accuracy             : 0.5978
+embedded_accuracy             : 0.5977
+accuracy_drop_embed           : 0.0002
+attack_time                   : 0.0s
+attacked_accuracy             : 0.1042
+accuracy_drop_attack          : 0.4934
+extract_time                  : 1.2s
+mean_confidence               : 1.0000
+min_confidence                : 1.0000
+survival_rate                 : 79.45%
+survival_rate_numeric         : 0.7945350241545893
+exact_match                   : False
+status                        : SUCCESS
+
+
+Test: Structured Prune (60%)
+----------------------------------------------------------------------------------------------------
+attack_name                   : Structured Prune (60%)
+attack_params                 : {'sparsity': 0.6}
+payload_size_bytes            : 828
+payload_size_bits             : 6624
+embed_time                    : 181.9s
+capacity_weights              : 99360
+capacity_percent              : 0.8894%
+baseline_accuracy             : 0.5972
+embedded_accuracy             : 0.5972
+accuracy_drop_embed           : 0.0000
+attack_time                   : 0.0s
+attacked_accuracy             : 0.1020
+accuracy_drop_attack          : 0.4952
+extract_time                  : 1.2s
+mean_confidence               : 1.0000
+min_confidence                : 1.0000
+survival_rate                 : 75.95%
+survival_rate_numeric         : 0.7595108695652174
+exact_match                   : False
+status                        : SUCCESS
+
+
+Test: Structured Prune (70%)
+----------------------------------------------------------------------------------------------------
+attack_name                   : Structured Prune (70%)
+attack_params                 : {'sparsity': 0.7}
+payload_size_bytes            : 828
+payload_size_bits             : 6624
+embed_time                    : 182.8s
+capacity_weights              : 99360
+capacity_percent              : 0.8894%
+baseline_accuracy             : 0.5969
+embedded_accuracy             : 0.5969
+accuracy_drop_embed           : 0.0000
+attack_time                   : 0.0s
+attacked_accuracy             : 0.1020
+accuracy_drop_attack          : 0.4948
+extract_time                  : 1.2s
+mean_confidence               : 1.0000
+min_confidence                : 1.0000
+survival_rate                 : 68.84%
+survival_rate_numeric         : 0.6884057971014492
+exact_match                   : False
+status                        : SUCCESS
+
+
+Test: 8-bit Quantization
+----------------------------------------------------------------------------------------------------
+attack_name                   : 8-bit Quantization
+attack_params                 : {}
+payload_size_bytes            : 828
+payload_size_bits             : 6624
+embed_time                    : 181.9s
+capacity_weights              : 99360
+capacity_percent              : 0.8894%
+baseline_accuracy             : 0.5970
+embedded_accuracy             : 0.5967
+accuracy_drop_embed           : 0.0003
+attack_time                   : 0.0s
+attacked_accuracy             : 0.5911
+accuracy_drop_attack          : 0.0056
+extract_time                  : 1.3s
+mean_confidence               : 0.9945
+min_confidence                : 0.9186
+survival_rate                 : 100.00%
+survival_rate_numeric         : 1.0
+exact_match                   : True
+status                        : SUCCESS
+
+
+Test: 4-bit Quantization
+----------------------------------------------------------------------------------------------------
+attack_name                   : 4-bit Quantization
+attack_params                 : {}
+payload_size_bytes            : 828
+payload_size_bits             : 6624
+embed_time                    : 181.6s
+capacity_weights              : 99360
+capacity_percent              : 0.8894%
+baseline_accuracy             : 0.5967
+embedded_accuracy             : 0.5972
+accuracy_drop_embed           : -0.0005
+attack_time                   : 0.0s
+attacked_accuracy             : 0.3311
+accuracy_drop_attack          : 0.2661
+extract_time                  : 1.2s
+mean_confidence               : 0.9984
+min_confidence                : 0.8956
+survival_rate                 : 48.19%
+survival_rate_numeric         : 0.48188405797101447
+exact_match                   : False
+status                        : SUCCESS
+
+
+Test: Gaussian Noise (std=0.001)
+----------------------------------------------------------------------------------------------------
+attack_name                   : Gaussian Noise (std=0.001)
+attack_params                 : {'noise_std': 0.001}
+payload_size_bytes            : 828
+payload_size_bits             : 6624
+embed_time                    : 182.1s
+capacity_weights              : 99360
+capacity_percent              : 0.8894%
+baseline_accuracy             : 0.5969
+embedded_accuracy             : 0.5969
+accuracy_drop_embed           : 0.0000
+attack_time                   : 0.0s
+attacked_accuracy             : 0.5956
+accuracy_drop_attack          : 0.0013
+extract_time                  : 1.2s
+mean_confidence               : 0.9936
+min_confidence                : 0.8788
+survival_rate                 : 100.00%
+survival_rate_numeric         : 1.0
+exact_match                   : True
+status                        : SUCCESS
+
+
+Test: Gaussian Noise (std=0.005)
+----------------------------------------------------------------------------------------------------
+attack_name                   : Gaussian Noise (std=0.005)
+attack_params                 : {'noise_std': 0.005}
+payload_size_bytes            : 828
+payload_size_bits             : 6624
+embed_time                    : 184.5s
+capacity_weights              : 99360
+capacity_percent              : 0.8894%
+baseline_accuracy             : 0.5972
+embedded_accuracy             : 0.5967
+accuracy_drop_embed           : 0.0005
+attack_time                   : 0.0s
+attacked_accuracy             : 0.5869
+accuracy_drop_attack          : 0.0098
+extract_time                  : 1.3s
+mean_confidence               : 0.9939
+min_confidence                : 0.8739
+survival_rate                 : 54.30%
+survival_rate_numeric         : 0.5430253623188406
+exact_match                   : False
+status                        : SUCCESS
+
+
+Test: FGSM Attack (epsilon=0.01)
+----------------------------------------------------------------------------------------------------
+attack_name                   : FGSM Attack (epsilon=0.01)
+attack_params                 : {'epsilon': 0.01}
+payload_size_bytes            : 828
+payload_size_bits             : 6624
+embed_time                    : 182.6s
+capacity_weights              : 99360
+capacity_percent              : 0.8894%
+baseline_accuracy             : 0.5972
+embedded_accuracy             : 0.5970
+accuracy_drop_embed           : 0.0002
+attack_time                   : 5.7s
+attacked_accuracy             : 0.5969
+accuracy_drop_attack          : 0.0002
+extract_time                  : 1.2s
+mean_confidence               : 1.0000
+min_confidence                : 1.0000
+survival_rate                 : 100.00%
+survival_rate_numeric         : 1.0
+exact_match                   : True
+status                        : SUCCESS
+
+
+Test: PGD Attack (epsilon=0.01)
+----------------------------------------------------------------------------------------------------
+attack_name                   : PGD Attack (epsilon=0.01)
+attack_params                 : {'epsilon': 0.01, 'alpha': 0.002, 'num_steps': 7}
+payload_size_bytes            : 828
+payload_size_bits             : 6624
+embed_time                    : 183.5s
+capacity_weights              : 99360
+capacity_percent              : 0.8894%
+baseline_accuracy             : 0.5972
+embedded_accuracy             : 0.5970
+accuracy_drop_embed           : 0.0002
+attack_time                   : 47.5s
+attacked_accuracy             : 0.5970
+accuracy_drop_attack          : 0.0000
+extract_time                  : 1.2s
+mean_confidence               : 1.0000
+min_confidence                : 1.0000
+survival_rate                 : 100.00%
+survival_rate_numeric         : 1.0
+exact_match                   : True
+status                        : SUCCESS
+
+
+Test: Combined: Prune(30%) + Quantize(8bit)
+----------------------------------------------------------------------------------------------------
+attack_name                   : Combined: Prune(30%) + Quantize(8bit)
+attack_params                 : {'prune_sparsity': 0.3, 'quantize_bits': 8, 'noise_std': 0.0}
+payload_size_bytes            : 828
+payload_size_bits             : 6624
+embed_time                    : 184.8s
+capacity_weights              : 99360
+capacity_percent              : 0.8894%
+baseline_accuracy             : 0.5970
+embedded_accuracy             : 0.5970
+accuracy_drop_embed           : 0.0000
+attack_time                   : 0.0s
+attacked_accuracy             : 0.1131
+accuracy_drop_attack          : 0.4839
+extract_time                  : 1.2s
+mean_confidence               : 0.9959
+min_confidence                : 0.9201
+survival_rate                 : 90.87%
+survival_rate_numeric         : 0.9086654589371981
+exact_match                   : False
+status                        : SUCCESS
+
+
+Test: Combined: Prune(50%) + Quantize(4bit)
+----------------------------------------------------------------------------------------------------
+attack_name                   : Combined: Prune(50%) + Quantize(4bit)
+attack_params                 : {'prune_sparsity': 0.5, 'quantize_bits': 4, 'noise_std': 0.0}
+payload_size_bytes            : 828
+payload_size_bits             : 6624
+embed_time                    : 185.3s
+capacity_weights              : 99360
+capacity_percent              : 0.8894%
+baseline_accuracy             : 0.5970
+embedded_accuracy             : 0.5969
+accuracy_drop_embed           : 0.0002
+attack_time                   : 0.0s
+attacked_accuracy             : 0.1008
+accuracy_drop_attack          : 0.4961
+extract_time                  : 1.3s
+mean_confidence               : 0.9975
+min_confidence                : 0.8926
+survival_rate                 : 40.07%
+survival_rate_numeric         : 0.40066425120772947
+exact_match                   : False
+status                        : SUCCESS
+
+
+Test: Combined: Prune(30%) + Quantize(8bit) + Noise(0.001)
+----------------------------------------------------------------------------------------------------
+attack_name                   : Combined: Prune(30%) + Quantize(8bit) + Noise(0.001)
+attack_params                 : {'prune_sparsity': 0.3, 'quantize_bits': 8, 'noise_std': 0.001}
+payload_size_bytes            : 828
+payload_size_bits             : 6624
+embed_time                    : 186.3s
+capacity_weights              : 99360
+capacity_percent              : 0.8894%
+baseline_accuracy             : 0.5970
+embedded_accuracy             : 0.5972
+accuracy_drop_embed           : -0.0002
+attack_time                   : 0.0s
+attacked_accuracy             : 0.1158
+accuracy_drop_attack          : 0.4814
+extract_time                  : 1.2s
+mean_confidence               : 0.9943
+min_confidence                : 0.8540
+survival_rate                 : 87.89%
+survival_rate_numeric         : 0.8789251207729468
+exact_match                   : False
+status                        : SUCCESS
+

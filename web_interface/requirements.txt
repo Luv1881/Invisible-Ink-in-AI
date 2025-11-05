@@ -1,0 +1,13 @@
+# Web Interface Dependencies for Neural Network Steganography
+
+# Core dependencies (already required by main project)
+torch>=2.0.0
+torchvision>=0.15.0
+numpy>=1.24.0
+
+# Web framework
+Flask>=2.3.0
+Werkzeug>=2.3.0
+
+# Utilities
+Pillow>=9.5.0

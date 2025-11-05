@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Neural Network Steganography</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🧠 Neural Network Steganography</h1>
+            <p class="subtitle">Hide Secret Messages in Deep Learning Models</p>
+        </header>
+
+        <main>
+            <section class="hero">
+                <div class="hero-content">
+                    <h2>What is Neural Network Steganography?</h2>
+                    <p>
+                        Neural network steganography is a cutting-edge technique that hides secret text messages
+                        within the weights of deep learning models. Unlike traditional steganography (hiding data
+                        in images or audio), this method embeds information in the billions of parameters of neural networks.
+                    </p>
+
+                    <div class="features">
+                        <div class="feature-card">
+                            <div class="feature-icon">🔒</div>
+                            <h3>Secure</h3>
+                            <p>Messages are hidden in model weights and are statistically undetectable</p>
+                        </div>
+
+                        <div class="feature-card">
+                            <div class="feature-icon">💪</div>
+                            <h3>Robust</h3>
+                            <p>Survives quantization (4-bit, 8-bit), pruning, and noise attacks</p>
+                        </div>
+
+                        <div class="feature-card">
+                            <div class="feature-icon">🎯</div>
+                            <h3>Accurate</h3>
+                            <p>Model accuracy is preserved (only ~0.6% drop)</p>
+                        </div>
+
+                        <div class="feature-card">
+                            <div class="feature-icon">📝</div>
+                            <h3>Flexible</h3>
+                            <p>Embed any text: messages, code, JSON, configurations</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="actions">
+                <div class="action-buttons">
+                    <a href="{{ url_for('embed_page') }}" class="btn btn-primary btn-large">
+                        <span class="btn-icon">📥</span>
+                        Embed Text
+                        <span class="btn-description">Hide a secret message in a neural network</span>
+                    </a>
+
+                    <a href="{{ url_for('extract_page') }}" class="btn btn-secondary btn-large">
+                        <span class="btn-icon">📤</span>
+                        Extract Text
+                        <span class="btn-description">Recover hidden message from a model</span>
+                    </a>
+                </div>
+            </section>
+
+            <section class="how-it-works">
+                <h2>How It Works</h2>
+
+                <div class="steps">
+                    <div class="step">
+                        <div class="step-number">1</div>
+                        <div class="step-content">
+                            <h3>Embedding</h3>
+                            <p>Your text is converted to binary and embedded into carefully selected neural network weights using Quantization Index Modulation (QIM). The system uses 25× redundancy to ensure survival against attacks.</p>
+                        </div>
+                    </div>
+
+                    <div class="step">
+                        <div class="step-number">2</div>
+                        <div class="step-content">
+                            <h3>Watermarked Model</h3>
+                            <p>The model now contains your hidden message but remains fully functional. Model accuracy drops by less than 1%, making the watermark imperceptible.</p>
+                        </div>
+                    </div>
+
+                    <div class="step">
+                        <div class="step-number">3</div>
+                        <div class="step-content">
+                            <h3>Extraction</h3>
+                            <p>Using the metadata file, the system can extract your original message even after the model undergoes compression (quantization, pruning) or noise attacks.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="stats">
+                <h2>Performance Statistics</h2>
+
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-value">91%</div>
+                        <div class="stat-label">8-bit Quantization Survival</div>
+                    </div>
+
+                    <div class="stat-card">
+                        <div class="stat-value">87%</div>
+                        <div class="stat-label">4-bit Quantization Survival</div>
+                    </div>
+
+                    <div class="stat-card">
+                        <div class="stat-value">81%</div>
+                        <div class="stat-label">Combined Attack Survival</div>
+                    </div>
+
+                    <div class="stat-card">
+                        <div class="stat-value">370</div>
+                        <div class="stat-label">Bytes Capacity per Model</div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="use-cases">
+                <h2>Use Cases</h2>
+
+                <div class="use-case-list">
+                    <div class="use-case">
+                        <h3>🔐 Model Watermarking</h3>
+                        <p>Prove ownership of proprietary models by embedding creator signatures</p>
+                    </div>
+
+                    <div class="use-case">
+                        <h3>🛡️ Copyright Protection</h3>
+                        <p>Embed copyright information that survives model compression and fine-tuning</p>
+                    </div>
+
+                    <div class="use-case">
+                        <h3>🕵️ Covert Communication</h3>
+                        <p>Hide sensitive messages in publicly shared models</p>
+                    </div>
+
+                    <div class="use-case">
+                        <h3>✅ Integrity Verification</h3>
+                        <p>Detect unauthorized model modifications by checking embedded checksums</p>
+                    </div>
+
+                    <div class="use-case">
+                        <h3>📋 Configuration Embedding</h3>
+                        <p>Store model configuration, hyperparameters, or training metadata</p>
+                    </div>
+
+                    <div class="use-case">
+                        <h3>🔢 Serial Numbers</h3>
+                        <p>Embed unique identifiers to track model distribution and usage</p>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <footer>
+            <p>Neural Network Steganography Research Project | 2025</p>
+            <p>Using ResNet-18 on CIFAR-10 | QIM Encoding with Adaptive Redundancy</p>
+        </footer>
+    </div>
+</body>
+</html>

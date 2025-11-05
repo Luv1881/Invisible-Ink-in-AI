@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Extract Text - Neural Network Steganography</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>📤 Extract Secret Text</h1>
+            <p class="subtitle">Recover hidden messages from watermarked models</p>
+            <nav>
+                <a href="{{ url_for('index') }}" class="nav-link">← Home</a>
+                <a href="{{ url_for('embed_page') }}" class="nav-link">← Embed Text</a>
+            </nav>
+        </header>
+
+        <main>
+            <section class="extract-section">
+                <div class="form-card">
+                    <h2>Upload Watermarked Model</h2>
+
+                    <form id="extractForm">
+                        <div class="form-group">
+                            <label for="model_file">
+                                <strong>Model File (.pth)</strong>
+                                <span class="required">*Required</span>
+                            </label>
+                            <input type="file" id="model_file" name="model_file" accept=".pth,.pt" required>
+                            <small>Upload the watermarked model file</small>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="metadata_file">
+                                <strong>Metadata File (.pkl)</strong>
+                                <span class="required">*Required</span>
+                            </label>
+                            <input type="file" id="metadata_file" name="metadata_file" accept=".pkl" required>
+                            <small>Upload the metadata file that came with the model</small>
+                        </div>
+
+                        <hr>
+
+                        <h3>Optional: Simulate Attack</h3>
+                        <p class="hint">Test how well the embedded message survives attacks</p>
+
+                        <div class="form-group">
+                            <label for="attack_type">
+                                <strong>Attack Type</strong>
+                            </label>
+                            <select id="attack_type" name="attack_type">
+                                <option value="none">No Attack (Clean Extraction)</option>
+                                <option value="quant8">8-bit Quantization</option>
+                                <option value="quant4">4-bit Quantization</option>
+                            </select>
+                            <small>Apply an attack before extraction to test robustness</small>
+                        </div>
+
+                        <div class="form-actions">
+                            <button type="submit" class="btn btn-primary btn-large">
+                                <span class="btn-icon">🔓</span>
+                                Extract Message
+                            </button>
+                        </div>
+                    </form>
+                </div>
+
+                <div class="info-card">
+                    <h3>⏱️ Estimated Time</h3>
+                    <ul>
+                        <li><strong>Clean extraction:</strong> ~10-30 seconds</li>
+                        <li><strong>With attack simulation:</strong> ~1-2 minutes</li>
+                    </ul>
+
+                    <h3>📊 What Happens?</h3>
+                    <ol>
+                        <li>Model and metadata are loaded</li>
+                        <li>Optional attack is applied (if selected)</li>
+                        <li>Embedded bits are extracted from weights</li>
+                        <li>Soft-decision decoding recovers the message</li>
+                        <li>Text is decoded and displayed</li>
+                    </ol>
+
+                    <h3>💡 Tips</h3>
+                    <ul>
+                        <li>Both model and metadata files are required</li>
+                        <li>Clean extraction should achieve 100% recovery</li>
+                        <li>8-bit quantization: Expect ~91% survival</li>
+                        <li>4-bit quantization: Expect ~87% survival</li>
+                        <li>Minor errors may occur but message should be readable</li>
+                    </ul>
+
+                    <h3>⚠️ Common Issues</h3>
+                    <ul>
+                        <li>Model/metadata mismatch: Ensure files are from the same embedding</li>
+                        <li>Corrupted text: May indicate severe attack or wrong metadata</li>
+                        <li>Low confidence: Some bits may be unreliable</li>
+                    </ul>
+                </div>
+            </section>
+
+            <section id="progressSection" class="progress-section" style="display: none;">
+                <h2>Extracting Message...</h2>
+                <div class="progress-bar">
+                    <div id="progressBar" class="progress-fill"></div>
+                </div>
+                <p id="progressText" class="progress-text">Loading model...</p>
+            </section>
+
+            <section id="resultsSection" class="results-section" style="display: none;">
+                <h2>✅ Extraction Complete!</h2>
+
+                <div class="results-card">
+                    <h3>Extracted Message</h3>
+                    <div class="message-box">
+                        <pre id="extractedText"></pre>
+                    </div>
+
+                    <div class="form-actions">
+                        <button onclick="copyToClipboard()" class="btn btn-secondary">
+                            <span class="btn-icon">📋</span>
+                            Copy to Clipboard
+                        </button>
+                        <button onclick="downloadText()" class="btn btn-secondary">
+                            <span class="btn-icon">💾</span>
+                            Download as Text File
+                        </button>
+                    </div>
+
+                    <h3>Extraction Statistics</h3>
+                    <div class="results-grid">
+                        <div class="result-item">
+                            <label>Extracted Bytes:</label>
+                            <span id="extractedBytes" class="result-value"></span>
+                        </div>
+                        <div class="result-item">
+                            <label>Extracted Characters:</label>
+                            <span id="extractedChars" class="result-value"></span>
+                        </div>
+                        <div class="result-item">
+                            <label>Mean Confidence:</label>
+                            <span id="meanConfidence" class="result-value"></span>
+                        </div>
+                        <div class="result-item">
+                            <label>Min Confidence:</label>
+                            <span id="minConfidence" class="result-value"></span>
+                        </div>
+                        <div class="result-item highlight">
+                            <label>Survival Rate:</label>
+                            <span id="survivalRate" class="result-value"></span>
+                        </div>
+                        <div class="result-item">
+                            <label>Attack Applied:</label>
+                            <span id="attackApplied" class="result-value"></span>
+                        </div>
+                    </div>
+
+                    <div id="warningBox" class="warning-box" style="display: none;">
+                        <strong>⚠️ Warning:</strong> Some characters may be corrupted due to the attack. The survival rate indicates the quality of extraction.
+                    </div>
+                </div>
+
+                <div class="form-actions">
+                    <button onclick="location.reload()" class="btn btn-secondary">
+                        Extract Another Message
+                    </button>
+                    <a href="{{ url_for('embed_page') }}" class="btn btn-primary">
+                        ← Embed New Text
+                    </a>
+                </div>
+            </section>
+
+            <section class="recent-models">
+                <h2>Recent Models</h2>
+                <div id="modelsList" class="models-list">
+                    <p>Loading...</p>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script>
+        let extractedTextContent = '';
+
+        // Load recent models
+        async function loadRecentModels() {
+            try {
+                const response = await fetch('/api/models');
+                const data = await response.json();
+
+                const modelsList = document.getElementById('modelsList');
+
+                if (data.models.length === 0) {
+                    modelsList.innerHTML = '<p>No models found. Create one by embedding text!</p>';
+                    return;
+                }
+
+                let html = '<table class="models-table">';
+                html += '<thead><tr><th>Model ID</th><th>Created</th><th>Text Length</th><th>Redundancy</th><th>4-bit Survival</th><th>Actions</th></tr></thead>';
+                html += '<tbody>';
+
+                data.models.forEach(model => {
+                    const date = new Date(model.timestamp).toLocaleString();
+                    const survival = (model.quantization_survival_4bit * 100).toFixed(1) + '%';
+
+                    html += `<tr>
+                        <td><code>${model.model_id}</code></td>
+                        <td>${date}</td>
+                        <td>${model.text_length} chars</td>
+                        <td>${model.redundancy_factor}×</td>
+                        <td>${survival}</td>
+                        <td>
+                            <a href="/api/download_model/${model.model_id}" class="btn-small">Model</a>
+                            <a href="/api/download_metadata/${model.model_id}" class="btn-small">Metadata</a>
+                        </td>
+                    </tr>`;
+                });
+
+                html += '</tbody></table>';
+                modelsList.innerHTML = html;
+
+            } catch (error) {
+                document.getElementById('modelsList').innerHTML = '<p>Error loading models.</p>';
+            }
+        }
+
+        loadRecentModels();
+
+        // Form submission
+        const extractForm = document.getElementById('extractForm');
+        extractForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const formData = new FormData(extractForm);
+
+            // Show progress
+            document.querySelector('.extract-section').style.display = 'none';
+            document.querySelector('.recent-models').style.display = 'none';
+            document.getElementById('progressSection').style.display = 'block';
+            document.getElementById('resultsSection').style.display = 'none';
+
+            // Progress simulation
+            let progress = 0;
+            const progressBar = document.getElementById('progressBar');
+            const progressText = document.getElementById('progressText');
+
+            const progressMessages = [
+                'Loading model...',
+                'Loading metadata...',
+                'Applying attack...',
+                'Extracting bits...',
+                'Decoding message...',
+                'Finalizing...'
+            ];
+
+            let msgIndex = 0;
+            const progressInterval = setInterval(() => {
+                progress += 5;
+                if (progress > 90) progress = 90;
+                progressBar.style.width = progress + '%';
+                progressText.textContent = progressMessages[msgIndex];
+                if (progress % 20 === 0) {
+                    msgIndex = Math.min(msgIndex + 1, progressMessages.length - 1);
+                }
+            }, 500);
+
+            try {
+                const response = await fetch('/api/extract', {
+                    method: 'POST',
+                    body: formData
+                });
+
+                clearInterval(progressInterval);
+
+                const result = await response.json();
+
+                if (result.error) {
+                    alert('Error: ' + result.error);
+                    location.reload();
+                    return;
+                }
+
+                // Show results
+                progressBar.style.width = '100%';
+                progressText.textContent = 'Complete!';
+
+                setTimeout(() => {
+                    document.getElementById('progressSection').style.display = 'none';
+                    document.getElementById('resultsSection').style.display = 'block';
+
+                    // Fill in results
+                    extractedTextContent = result.text;
+                    document.getElementById('extractedText').textContent = result.text;
+
+                    const stats = result.statistics;
+                    document.getElementById('extractedBytes').textContent = stats.extracted_bytes + ' bytes';
+                    document.getElementById('extractedChars').textContent = stats.extracted_chars + ' characters';
+                    document.getElementById('meanConfidence').textContent = (stats.mean_confidence * 100).toFixed(2) + '%';
+                    document.getElementById('minConfidence').textContent = (stats.min_confidence * 100).toFixed(2) + '%';
+
+                    if (stats.survival_rate !== null) {
+                        document.getElementById('survivalRate').textContent = (stats.survival_rate * 100).toFixed(2) + '%';
+                    } else {
+                        document.getElementById('survivalRate').textContent = 'N/A';
+                    }
+
+                    const attackNames = {
+                        'none': 'None (Clean)',
+                        'quant8': '8-bit Quantization',
+                        'quant4': '4-bit Quantization'
+                    };
+                    document.getElementById('attackApplied').textContent = attackNames[stats.attack_applied] || stats.attack_applied;
+
+                    // Show warning if attack was applied
+                    if (stats.attack_applied !== 'none') {
+                        document.getElementById('warningBox').style.display = 'block';
+                    }
+
+                }, 500);
+
+            } catch (error) {
+                clearInterval(progressInterval);
+                alert('Error: ' + error.message);
+                location.reload();
+            }
+        });
+
+        function copyToClipboard() {
+            navigator.clipboard.writeText(extractedTextContent).then(() => {
+                alert('Text copied to clipboard!');
+            }).catch(err => {
+                alert('Failed to copy: ' + err);
+            });
+        }
+
+        function downloadText() {
+            const blob = new Blob([extractedTextContent], { type: 'text/plain' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'extracted_message.txt';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        }
+    </script>
+</body>
+</html>

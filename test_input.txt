@@ -1,0 +1,22 @@
+Neural Network Steganography Test Payload
+==========================================
+
+This file serves as a test input for the neural network steganography framework.
+It contains approximately 512 bytes of text data that will be embedded into the
+ResNet-18 model weights.
+
+The steganography system will:
+1. Convert this text into binary bits
+2. Analyze layer sensitivity in the neural network
+3. Select the least sensitive weights for embedding
+4. Perturb those weights to encode the secret message
+5. Maintain model accuracy within 1.5% threshold
+
+This payload will be tested against various attacks including:
+- Fine-tuning attacks (5 and 10 epochs)
+- Structured pruning (30%, 50%, 60%)
+- Quantization attacks
+- FGSM adversarial attacks
+- PGD adversarial attacks
+
+Expected survival rates should be above 70% for most attacks.

@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Embed Text - Neural Network Steganography</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>📥 Embed Secret Text</h1>
+            <p class="subtitle">Hide your message in a neural network</p>
+            <nav>
+                <a href="{{ url_for('index') }}" class="nav-link">← Home</a>
+                <a href="{{ url_for('extract_page') }}" class="nav-link">Extract Text →</a>
+            </nav>
+        </header>
+
+        <main>
+            <section class="embed-section">
+                <div class="form-card">
+                    <h2>Enter Your Secret Message</h2>
+
+                    <form id="embedForm">
+                        <div class="form-group">
+                            <label for="text_content">
+                                <strong>Text Content</strong>
+                                <span class="hint">(Max ~370 bytes or ~370 characters)</span>
+                            </label>
+                            <textarea
+                                id="text_content"
+                                name="text_content"
+                                rows="10"
+                                placeholder="Enter your secret message here...&#10;&#10;You can embed:&#10;- Plain text messages&#10;- JSON configuration&#10;- Code snippets&#10;- Serial numbers&#10;- Any text data"
+                            ></textarea>
+                            <div class="char-counter">
+                                <span id="charCount">0</span> characters
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="text_file">
+                                <strong>Or Upload Text File</strong>
+                                <span class="hint">(.txt, .json, .py, .md, etc.)</span>
+                            </label>
+                            <input type="file" id="text_file" name="text_file" accept=".txt,.json,.py,.java,.cpp,.c,.js,.html,.css,.md,.xml,.csv">
+                            <small>File will override text area content</small>
+                        </div>
+
+                        <hr>
+
+                        <h3>Advanced Parameters</h3>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="redundancy">
+                                    <strong>Redundancy Factor</strong>
+                                    <span class="hint">Higher = more robust, lower capacity</span>
+                                </label>
+                                <input type="number" id="redundancy" name="redundancy" value="25" min="10" max="50" step="5">
+                                <small>Default: 25× (recommended)</small>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="step_multiplier">
+                                    <strong>Step Multiplier</strong>
+                                    <span class="hint">Higher = stronger embedding</span>
+                                </label>
+                                <input type="number" id="step_multiplier" name="step_multiplier" value="0.25" min="0.10" max="0.50" step="0.05">
+                                <small>Default: 0.25× (recommended)</small>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group checkbox-group">
+                                <label>
+                                    <input type="checkbox" id="adaptive" name="adaptive" checked>
+                                    <strong>Adaptive Redundancy</strong>
+                                    <span class="hint">Allocate more redundancy to vulnerable weights</span>
+                                </label>
+                            </div>
+
+                            <div class="form-group checkbox-group">
+                                <label>
+                                    <input type="checkbox" id="validate_quant" name="validate_quant" checked>
+                                    <strong>Quantization Validation</strong>
+                                    <span class="hint">Test survival rates during embedding</span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="form-actions">
+                            <button type="submit" class="btn btn-primary btn-large">
+                                <span class="btn-icon">🚀</span>
+                                Start Embedding
+                            </button>
+                        </div>
+                    </form>
+                </div>
+
+                <div class="info-card">
+                    <h3>⏱️ Estimated Time</h3>
+                    <ul>
+                        <li><strong>With validation:</strong> ~5-10 minutes</li>
+                        <li><strong>Without validation:</strong> ~3-5 minutes</li>
+                        <li>Includes model fine-tuning and embedding</li>
+                    </ul>
+
+                    <h3>📊 What Happens Next?</h3>
+                    <ol>
+                        <li>Model is fine-tuned for CIFAR-10</li>
+                        <li>Weight sensitivity is analyzed</li>
+                        <li>Optimal weights are selected</li>
+                        <li>Text is embedded using QIM encoding</li>
+                        <li>Quantization resistance is validated</li>
+                        <li>You receive a watermarked model!</li>
+                    </ol>
+
+                    <h3>💡 Tips</h3>
+                    <ul>
+                        <li>Keep text under 370 bytes for best results</li>
+                        <li>Use higher redundancy for mission-critical data</li>
+                        <li>Adaptive redundancy improves survival rates by 10-15%</li>
+                        <li>Validation adds 2-3 minutes but ensures quality</li>
+                    </ul>
+                </div>
+            </section>
+
+            <section id="progressSection" class="progress-section" style="display: none;">
+                <h2>Embedding in Progress...</h2>
+                <div class="progress-bar">
+                    <div id="progressBar" class="progress-fill"></div>
+                </div>
+                <p id="progressText" class="progress-text">Initializing...</p>
+            </section>
+
+            <section id="resultsSection" class="results-section" style="display: none;">
+                <h2>✅ Embedding Complete!</h2>
+
+                <div class="results-card">
+                    <h3>Model Information</h3>
+                    <div class="results-grid">
+                        <div class="result-item">
+                            <label>Model ID:</label>
+                            <span id="modelId" class="result-value"></span>
+                        </div>
+                        <div class="result-item">
+                            <label>Timestamp:</label>
+                            <span id="timestamp" class="result-value"></span>
+                        </div>
+                        <div class="result-item">
+                            <label>Text Length:</label>
+                            <span id="textLength" class="result-value"></span>
+                        </div>
+                        <div class="result-item">
+                            <label>Payload Size:</label>
+                            <span id="payloadSize" class="result-value"></span>
+                        </div>
+                    </div>
+
+                    <h3>Embedding Statistics</h3>
+                    <div class="results-grid">
+                        <div class="result-item">
+                            <label>Redundancy Factor:</label>
+                            <span id="redundancyFactor" class="result-value"></span>
+                        </div>
+                        <div class="result-item">
+                            <label>Capacity Used:</label>
+                            <span id="capacityPercent" class="result-value"></span>
+                        </div>
+                        <div class="result-item">
+                            <label>Baseline Accuracy:</label>
+                            <span id="baselineAccuracy" class="result-value"></span>
+                        </div>
+                        <div class="result-item">
+                            <label>Embedded Accuracy:</label>
+                            <span id="embeddedAccuracy" class="result-value"></span>
+                        </div>
+                        <div class="result-item">
+                            <label>Accuracy Drop:</label>
+                            <span id="accuracyDrop" class="result-value"></span>
+                        </div>
+                    </div>
+
+                    <h3>Quantization Survival Rates</h3>
+                    <div class="results-grid">
+                        <div class="result-item highlight">
+                            <label>8-bit Quantization:</label>
+                            <span id="survival8bit" class="result-value"></span>
+                        </div>
+                        <div class="result-item highlight">
+                            <label>4-bit Quantization:</label>
+                            <span id="survival4bit" class="result-value"></span>
+                        </div>
+                    </div>
+
+                    <div class="download-actions">
+                        <a id="downloadModelBtn" href="#" class="btn btn-primary">
+                            <span class="btn-icon">📦</span>
+                            Download Watermarked Model
+                        </a>
+                        <a id="downloadMetadataBtn" href="#" class="btn btn-secondary">
+                            <span class="btn-icon">📋</span>
+                            Download Metadata
+                        </a>
+                    </div>
+
+                    <div class="warning-box">
+                        <strong>⚠️ Important:</strong> Keep both files safe! You need the metadata file to extract the hidden text later.
+                    </div>
+                </div>
+
+                <div class="form-actions">
+                    <button onclick="location.reload()" class="btn btn-secondary">
+                        Embed Another Message
+                    </button>
+                    <a href="{{ url_for('extract_page') }}" class="btn btn-primary">
+                        Extract Text →
+                    </a>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script>
+        // Character counter
+        const textArea = document.getElementById('text_content');
+        const charCount = document.getElementById('charCount');
+
+        textArea.addEventListener('input', () => {
+            charCount.textContent = textArea.value.length;
+            if (textArea.value.length > 370) {
+                charCount.style.color = '#e74c3c';
+            } else {
+                charCount.style.color = '#2ecc71';
+            }
+        });
+
+        // Form submission
+        const embedForm = document.getElementById('embedForm');
+        embedForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const formData = new FormData(embedForm);
+
+            // Show progress
+            document.querySelector('.embed-section').style.display = 'none';
+            document.getElementById('progressSection').style.display = 'block';
+            document.getElementById('resultsSection').style.display = 'none';
+
+            // Simulate progress (since embedding takes time)
+            let progress = 0;
+            const progressBar = document.getElementById('progressBar');
+            const progressText = document.getElementById('progressText');
+
+            const progressMessages = [
+                'Initializing embedder...',
+                'Loading CIFAR-10 dataset...',
+                'Fine-tuning model...',
+                'Computing weight sensitivity...',
+                'Ranking weights...',
+                'Embedding payload...',
+                'Validating quantization resistance...',
+                'Finalizing...'
+            ];
+
+            let msgIndex = 0;
+            const progressInterval = setInterval(() => {
+                progress += 2;
+                if (progress > 90) progress = 90;
+                progressBar.style.width = progress + '%';
+                progressText.textContent = progressMessages[msgIndex];
+                if (progress % 15 === 0) {
+                    msgIndex = Math.min(msgIndex + 1, progressMessages.length - 1);
+                }
+            }, 1000);
+
+            try {
+                const response = await fetch('/api/embed', {
+                    method: 'POST',
+                    body: formData
+                });
+
+                clearInterval(progressInterval);
+
+                const result = await response.json();
+
+                if (result.error) {
+                    alert('Error: ' + result.error);
+                    location.reload();
+                    return;
+                }
+
+                // Show results
+                progressBar.style.width = '100%';
+                progressText.textContent = 'Complete!';
+
+                setTimeout(() => {
+                    document.getElementById('progressSection').style.display = 'none';
+                    document.getElementById('resultsSection').style.display = 'block';
+
+                    // Fill in results
+                    const stats = result.statistics;
+                    document.getElementById('modelId').textContent = result.model_id;
+                    document.getElementById('timestamp').textContent = new Date(stats.timestamp).toLocaleString();
+                    document.getElementById('textLength').textContent = stats.text_length + ' characters';
+                    document.getElementById('payloadSize').textContent = stats.payload_size_bytes + ' bytes (' + stats.payload_size_bits + ' bits)';
+                    document.getElementById('redundancyFactor').textContent = stats.redundancy_factor + '×';
+                    document.getElementById('capacityPercent').textContent = stats.capacity_percent.toFixed(2) + '%';
+                    document.getElementById('baselineAccuracy').textContent = (stats.baseline_accuracy * 100).toFixed(2) + '%';
+                    document.getElementById('embeddedAccuracy').textContent = (stats.embedded_accuracy * 100).toFixed(2) + '%';
+                    document.getElementById('accuracyDrop').textContent = (stats.accuracy_drop * 100).toFixed(2) + '%';
+                    document.getElementById('survival8bit').textContent = (stats.quantization_survival_8bit * 100).toFixed(1) + '%';
+                    document.getElementById('survival4bit').textContent = (stats.quantization_survival_4bit * 100).toFixed(1) + '%';
+
+                    // Setup download links
+                    document.getElementById('downloadModelBtn').href = '/api/download_model/' + result.model_id;
+                    document.getElementById('downloadMetadataBtn').href = '/api/download_metadata/' + result.model_id;
+                }, 500);
+
+            } catch (error) {
+                clearInterval(progressInterval);
+                alert('Error: ' + error.message);
+                location.reload();
+            }
+        });
+    </script>
+</body>
+</html>
